@@ -180,9 +180,24 @@ end
 
 def big_shoe_rebounds
   big_shoes = []
+  max_shoe = []
+  what_team = []
   game_hash.each do |location, team_color_player|
-    team_color_player.each do |tcp, tcp_names|
-      game_hash[location][team_color_player][:player]
+    team_color_player.each do |tcp, players|
+      if tcp == :players
+        players.each do |player, stat|
+          stat.each do |statistic, actual|
+            if statistic == :shoe
+              max_shoe.push(actual)
+              if max_shoe.max == actual
+                big_shoes.push(player)
+                what_team.push(location)
+              end
+            end
+          end
+        end
+      end
     end
   end
+  return game_hash[what_team.last][:players][big_shoes.last][:rebounds]
 end
